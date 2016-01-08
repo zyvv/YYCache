@@ -222,7 +222,7 @@ static inline dispatch_queue_t YYMemoryCacheGetReleaseQueue() {
     while (!finish) {
         if (OSSpinLockTry(&_lock)) {
             if (_lru->_totalCost > costLimit) {
-                _YYLinkedMapNode *node = [_lru removeTailNode];
+                _YYLinkedMapNode *node = [_lru removeTailNode]; // 移除尾部的node
                 if (node) [holder addObject:node];
             } else {
                 finish = YES;
@@ -266,6 +266,8 @@ static inline dispatch_queue_t YYMemoryCacheGetReleaseQueue() {
             usleep(10 * 1000); //10 ms
         }
     }
+    
+    // holder 持有了待释放的对象，这些对象应该根据配置在不同线程进行释放(release)。此处 holder 被 block 持有，然后在另外的 queue 中释放。[holder count] 只是为了让 holder 被 block 捕获，保证编译器不会优化掉这个操作，所以随便调用了一个方法。
     if (holder.count) {
         dispatch_queue_t queue = _lru->_releaseOnMainThread ? dispatch_get_main_queue() : YYMemoryCacheGetReleaseQueue();
         dispatch_async(queue, ^{
