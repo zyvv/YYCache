@@ -14,7 +14,7 @@ High performance cache framework for iOS.<br/>
 Performance
 ==============
 
-![Memory cache benchmark result](https://raw.github.com/ibireme/YYCache/master/Benchmark/Result_memory.png
+![Memory cache benchmark result](https:///ibireme/YYCache/master/Benchmark/Result_memory.png
 )
 
 ![Disk benchmark result](https://raw.github.com/ibireme/YYCache/master/Benchmark/Result_disk.png

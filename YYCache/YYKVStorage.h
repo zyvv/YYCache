@@ -71,6 +71,8 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  need to process large amounts of data in multi-thread, you should split the data
  to multiple KVStorage instance (sharding).
  */
+
+#warning 不是线程安全的，如果要存多个文件，需要新建多个实例。
 @interface YYKVStorage : NSObject
 
 #pragma mark - Attribute
@@ -153,6 +155,7 @@ typedef NS_ENUM(NSUInteger, YYKVStorageType) {
  
  @return Whether succeed.
  */
+#warning 如果不能为空，为什么不加不能为空的警告呢？
 - (BOOL)saveItemWithKey:(NSString *)key
                   value:(NSData *)value
                filename:(NSString *)filename
